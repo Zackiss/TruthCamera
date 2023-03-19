@@ -7,6 +7,7 @@ engine = create_engine("sqlite:///chain?check_same_thread=False", echo=True)
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
 
+# initial implementation - Zackiss on 3.19
 class Chain(Base):
     __tablename__ = 'Chain'
     id = Column(Integer, primary_key=True)

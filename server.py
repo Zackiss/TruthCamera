@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 from blockchain import BlockChain 
 import json
 
+# initial implementation - Zackiss on 3.19
 app = Flask(__name__)
 
 @app.route('/')

@@ -4,6 +4,7 @@ import hashlib
 import json
 import random
 
+# initial implementation - Zackiss on 3.19
 class Blockchain(object):
   def __init__(self):
     self.cur_capacity = 0

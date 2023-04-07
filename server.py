@@ -10,8 +10,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
 db = SQLAlchemy(app)
 
 # --------------TIPS---------------------
-# you shall post or get your request at address: ip/add_trans, ip/verify_img
-# you shall upload json with format {transaction: {"depth_data": depth data, "pic_hash": pic hash}}
+# you shall post or get your request at addresses: ip/add_trans, ip/verify_img
+# you shall upload json with format {"transaction": {"depth_data": depth data, "pic_hash": pic hash}}
 # you shall set up the front page at templates/index.html or redirect to other services
 
 

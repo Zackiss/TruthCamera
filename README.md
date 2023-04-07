@@ -1,4 +1,5 @@
 # Truth Camera
+![图片](https://user-images.githubusercontent.com/77574790/230587647-196dd82d-a1d2-4a3f-8cdd-99a65e650655.png)
 
 The Truth Camera is a blockchain-based camera that provides trustful forensic evidence collection, self-certification of media public trust, and anti-AI forgery capabilities. It is designed to be used in situations where the authenticity and integrity of visual media are critical, such as in legal or journalistic contexts.
 

@@ -4,6 +4,7 @@ import time
 import hashlib
 import random
 import json
+import pickle
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
@@ -30,10 +31,13 @@ def save_block_to_chain(block: dict):
 
 
 def get_all_blocks_from_chain() -> list:
+    blocks = []
     with app.app_context():
         db.create_all()
-        block = db.session.execute(db.select(Chain)).scalars().all()
-    return block
+        for block in db.session.query(Chain.attributes):
+            print(block[0])
+            blocks.append(block[0])
+    return blocks
 
 
 # update implementation - Zackiss on 4.7
@@ -103,9 +107,15 @@ def verify_block():
 class BlockChain(object):
     def __init__(self):
         self.cur_capacity = 0
-        self.max_capacity = 10
-        self.chain = self.get_chain()
+        self.max_capacity = 5
         self.cur_transactions = []
+        self.chain = [{
+            "index": 0,
+            "timestamp": time.time(),
+            "transactions": self.cur_transactions,
+            "proof": 12100,
+            "previous_hash": 12100
+        }]
         self.first_hash = self.hash({
             "index": len(self.chain) + 1,
             "timestamp": time.time(),
@@ -158,8 +168,10 @@ class BlockChain(object):
         print("verifying with chain: " + str(self.chain))
         for block in self.chain:
             for transaction in block["transactions"]:
-                if pic == transaction["pic_hash"]:
+                if pic == '"' + transaction["pic_hash"] + '"':
+                    print("hash found!")
                     return True
+        print("hash not found!")
         return False
 
     def hash(self, block):

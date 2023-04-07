@@ -148,14 +148,14 @@ class BlockChain(object):
         else:
             self.cur_transactions.append(transaction)
             self.cur_capacity += 1
-            print("buffering: " + self.cur_transactions)
-            print("current capacity reach to: " + self.cur_capacity)
-            print("max capacity: " + self.max_capacity)
+            print("buffering: " + str(self.cur_transactions))
+            print("current capacity reach to: " + str(self.cur_capacity))
+            print("max capacity: " + str(self.max_capacity))
 
     def verify_transaction(self, pic) -> bool:
         self.get_chain()
-        print("obtaining: " + pic)
-        print("verifying with chain: " + self.chain)
+        print("obtaining: " + str(pic))
+        print("verifying with chain: " + str(self.chain))
         for block in self.chain:
             for transaction in block["transactions"]:
                 if pic == transaction["pic_hash"]:

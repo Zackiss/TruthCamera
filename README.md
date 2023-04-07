@@ -20,9 +20,8 @@ In addition to the blockchain-based chain of custody, the Trustful Camera also i
 
 To get started with the Trustful Camera, you will need to:
 
-1. Purchase a Trustful Camera device
-2. Install the Trustful Camera app on your mobile IOS system device
-3. Start taking photos and videos with automatically stamped and anti-faked security measures
+1. Install the Trustful Camera app on your mobile IOS system device or Trustful Camera devices
+2. Start taking photos and videos with automatically stamped and anti-faked security measures
 
 Once you have taken photos or videos with the Trustful Camera, you can use the app to view and manage your media, including verifying the chain of custody and detecting any attempts at forgery.
 

@@ -71,6 +71,7 @@ def add_block():
         # if everything works well, we shall add transaction to blockchain
         else:
             blockchain.add_transaction(transaction)
+            response["info"] = "transaction received and saved to buffer"
     else:
         response["status"] = 500
         response["info"] = "requesting with empty transactions"
@@ -132,14 +133,17 @@ class BlockChain(object):
         save_block_to_chain(block)
         self.chain = self.get_chain()
         self.cur_capacity += 1
+        print("adding finished")
 
     def add_transaction(self, transaction):
         assert self.cur_capacity <= self.max_capacity
         # if block out of capacity
         if self.cur_capacity == self.max_capacity:
+            print("adding to blockchain")
             prev_block = self.get_chain_fin()
             proof = self.proof_work(prev_block["proof"])
             self.new_block(proof, previous_hash=self.hash(prev_block))
+            
         # if block not full, add transaction to the block
         else:
             self.cur_transactions.append(transaction)
@@ -150,6 +154,8 @@ class BlockChain(object):
 
     def verify_transaction(self, pic) -> bool:
         self.get_chain()
+        print("obtaining: " + pic)
+        print("verifying with chain: " + self.chain)
         for block in self.chain:
             for transaction in block["transactions"]:
                 if pic == transaction["pic_hash"]:

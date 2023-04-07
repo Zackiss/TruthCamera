@@ -1,11 +1,43 @@
 from flask import Flask, request, render_template
-from blockchain import BlockChain
+from flask_sqlalchemy import SQLAlchemy
+import time
+import hashlib
+import random
 import json
 
-# initial implementation - Zackiss on 3.19
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
+db = SQLAlchemy(app)
+
+# --------------TIPS---------------------
+# you shall post or get your request at address: ip/add_trans, ip/verify_img
+# you shall upload json with format {transaction: {"depth_data": depth data, "pic_hash": pic hash}}
+# you shall set up the front page at templates/index.html or redirect to other services
 
 
+# update implementation - Zackiss on 4.7
+# --------------DATABASE part---------------------
+class Chain(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    attributes = db.Column(db.PickleType)
+
+
+def save_block_to_chain(block: dict):
+    with app.app_context():
+        db.create_all()
+        db.session.add(Chain(attributes=block))
+        db.session.commit()
+
+
+def get_all_blocks_from_chain() -> list:
+    with app.app_context():
+        db.create_all()
+        block = db.session.execute(db.select(Chain)).scalars().all()
+    return block
+
+
+# update implementation - Zackiss on 4.7
+# ---------------FLASK part--------------------
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -65,6 +97,80 @@ def verify_block():
     return json.dumps(response, ensure_ascii=False)
 
 
+# update implementation - Zackiss on 4.7
+# ---------------BLOCKCHAIN part--------------------
+class BlockChain(object):
+    def __init__(self):
+        self.cur_capacity = 0
+        self.max_capacity = 10
+        self.chain = self.get_chain()
+        self.cur_transactions = []
+        self.first_hash = self.hash({
+            "index": len(self.chain) + 1,
+            "timestamp": time.time(),
+            "transactions": self.cur_transactions,
+            "proof": 12100,
+            "previous_hash": 12100
+        })
+
+    def get_chain_fin(self):
+        return self.chain[-1]
+
+    def get_chain(self) -> list[dict]:
+        self.chain = get_all_blocks_from_chain()
+        return self.chain
+
+    def new_block(self, proof, previous_hash=None):
+        # create a new block and save it to the chain
+        block = {
+            "index": len(self.chain) + 1,
+            "timestamp": time.time(),
+            "transactions": self.cur_transactions,
+            "proof": proof,
+            "previous_hash": previous_hash if previous_hash else self.first_hash
+        }
+        save_block_to_chain(block)
+        self.chain = self.get_chain()
+        self.cur_capacity += 1
+
+    def add_transaction(self, transaction):
+        assert self.cur_capacity <= self.max_capacity
+        # if block out of capacity
+        if self.cur_capacity == self.max_capacity:
+            prev_block = self.get_chain_fin()
+            proof = self.proof_work(prev_block["proof"])
+            self.new_block(proof, previous_hash=self.hash(prev_block))
+        # if block not full, add transaction to the block
+        else:
+            self.cur_transactions.append(transaction)
+
+    def verify_transaction(self, pic) -> bool:
+        self.get_chain()
+        for block in self.chain:
+            for transaction in block["transactions"]:
+                if pic == transaction["pic_hash"]:
+                    return True
+        return False
+
+    def hash(self, block):
+        block_string = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_string).hexdigest()
+
+    def proof_work(self, prev_proof):
+        proof = random.randint(0, 150)
+        while not self.verify_proof(prev_proof, proof):
+            proof += random.randint(0, 150)
+        return proof
+
+    @staticmethod
+    def verify_proof(last_proof, proof) -> bool:
+        guess = f"{last_proof}{proof}".encode()
+        hashy = hashlib.sha256(guess).hexdigest()
+        return hashy[:3] == "042"
+
+
 if __name__ == '__main__':
     blockchain = BlockChain()
     app.run()
+
+

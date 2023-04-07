@@ -143,6 +143,10 @@ class BlockChain(object):
         # if block not full, add transaction to the block
         else:
             self.cur_transactions.append(transaction)
+            self.cur_capacity += 1
+            print("buffering: " + self.cur_transactions)
+            print("current capacity reach to: " + self.cur_capacity)
+            print("max capacity: " + self.max_capacity)
 
     def verify_transaction(self, pic) -> bool:
         self.get_chain()

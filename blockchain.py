@@ -54,8 +54,9 @@ class BlockChain(object):
     def verify_transaction(self, pic) -> bool:
         self.get_chain()
         for block in self.chain:
-            if pic in block["transaction"]["pic_hash"]:
-                return True
+            for transaction in block["transactions"]:
+                if pic == transaction["pic_hash"]:
+                    return True
         return False
 
     def hash(self, block):

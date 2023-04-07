@@ -142,7 +142,7 @@ class BlockChain(object):
         }
         save_block_to_chain(block)
         self.chain = self.get_chain()
-        self.cur_capacity += 1
+        self.cur_capacity = 0
         print("adding finished")
 
     def add_transaction(self, transaction):

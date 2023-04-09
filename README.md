@@ -18,7 +18,7 @@ In addition to the blockchain-based chain of custody, the Trustful Camera also i
 - Tamper-proof timestamping
 - Secure storage on a decentralized blockchain network
 - Easy-to-use interface
-
+/
 
 ## 🛒 Getting started
 

@@ -4,6 +4,7 @@ The Truth Camera is a blockchain-based camera that provides trustful forensic ev
 
 https://truthcamera.tech
 
+
 ## 🔧 How it works
 
 The Trustful Camera uses blockchain technology to create a tamper-proof chain of custody for visual media. Each time a photo or video is taken with the camera, it is automatically timestamped and stored on a blockchain. This ensures that the media can be traced back to its source and that it has not been altered or manipulated in any way.
@@ -17,6 +18,7 @@ In addition to the blockchain-based chain of custody, the Trustful Camera also i
 - Tamper-proof timestamping
 - Secure storage on a decentralized blockchain network
 - Easy-to-use interface
+
 
 ## 🛒 Getting started
 

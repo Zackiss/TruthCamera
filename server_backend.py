@@ -9,6 +9,8 @@ import pickle
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
 db = SQLAlchemy(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)
 
 # --------------TIPS---------------------
 # you shall post or get your request at addresses: ip/add_trans, ip/verify_img
@@ -43,6 +45,7 @@ def get_all_blocks_from_chain() -> list:
 # update implementation - Zackiss on 4.7
 # ---------------FLASK part--------------------
 @app.route('/')
+@cross_origin()
 def index():
     return render_template("index.html")
 
@@ -58,6 +61,7 @@ def check_transaction_format(transaction: dict):
 
 
 @app.route('/add_trans', methods=['POST', 'GET'])
+@cross_origin()
 def add_block():
     transaction = None
     response = {}
@@ -83,6 +87,7 @@ def add_block():
 
 
 @app.route('/verify_img', methods=['POST', 'GET'])
+@cross_origin()
 def verify_block():
     response = {}
     if len(request.args):

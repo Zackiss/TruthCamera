@@ -7,10 +7,10 @@ import json
 import pickle
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
 db = SQLAlchemy(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chain.sqlite"
 cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # --------------TIPS---------------------
 # you shall post or get your request at addresses: ip/add_trans, ip/verify_img

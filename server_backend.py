@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS, cross_origin
 import time
 import hashlib
 import random

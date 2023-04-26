@@ -19,7 +19,7 @@ cors = CORS(app)
 class BlockChain(object):
     def __init__(self):
         self.cur_capacity = 0
-        self.max_capacity = 1
+        self.max_capacity = 0
         self.cur_transactions = []
         self.chain = [{
             "index": 0,

@@ -59,7 +59,7 @@ class BlockChain(object):
         print("adding finished")
 
     def add_transaction(self, transaction):
-        if testing:
+        if self.testing:
             self.cur_transactions.append(transaction)
             prev_block = self.get_chain_fin()
             proof = self.proof_work(prev_block["proof"])

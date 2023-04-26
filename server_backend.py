@@ -88,8 +88,10 @@ class BlockChain(object):
         print("obtaining: " + str(pic))
         print("verifying with chain: " + str(self.chain))
         for block in self.chain:
+            print(block)
             for transaction in block["transactions"]:
-                if pic == '"' + transaction["pic_hash"] + '"':
+                print(transaction["pic_hash"])
+                if pic == '"' + str(transaction["pic_hash"]) + '"':
                     print("hash found!")
                     return True
         print("hash not found!")
@@ -165,6 +167,9 @@ def check_transaction_format(transaction: dict):
 @app.route('/add_trans', methods=['POST', 'GET'])
 @cross_origin()
 def add_block():
+    """
+    format: 127.0.0.1:5000/add_trans?transaction={"depth_data":str,"pic_hash":str}
+    """
     transaction = None
     response = {}
 
@@ -191,6 +196,9 @@ def add_block():
 @app.route('/verify_img', methods=['POST', 'GET'])
 @cross_origin()
 def verify_block():
+    """
+    format: 127.0.0.1:5000/verify_img?pic_hash=str
+    """
     response = {}
     if len(request.args):
         response["status"] = 200

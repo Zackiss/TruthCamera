@@ -69,16 +69,15 @@ class BlockChain(object):
             return
         else:
             assert self.cur_capacity <= self.max_capacity
+            self.cur_transactions.append(transaction)
             # if block out of capacity
             if self.cur_capacity == self.max_capacity:
                 print("adding to blockchain")
                 prev_block = self.get_chain_fin()
                 proof = self.proof_work(prev_block["proof"])
                 self.new_block(proof, previous_hash=self.hash(prev_block))
-
             # if block not full, add transaction to the block
             else:
-                self.cur_transactions.append(transaction)
                 self.cur_capacity += 1
                 print("buffering: " + str(self.cur_transactions))
                 print("current capacity reach to: " + str(self.cur_capacity))

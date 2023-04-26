@@ -18,8 +18,9 @@ cors = CORS(app)
 # ---------------BLOCKCHAIN part--------------------
 class BlockChain(object):
     def __init__(self):
+        self.testing = True
         self.cur_capacity = 0
-        self.max_capacity = 0
+        self.max_capacity = 5
         self.cur_transactions = []
         self.chain = [{
             "index": 0,
@@ -58,6 +59,13 @@ class BlockChain(object):
         print("adding finished")
 
     def add_transaction(self, transaction):
+        if testing:
+            prev_block = self.get_chain_fin()
+            proof = self.proof_work(prev_block["proof"])
+            self.new_block(proof, previous_hash=self.hash(prev_block))
+            print("test buffering: " + str(self.cur_transactions))
+            print("running with minimum block capacity")
+            return
         assert self.cur_capacity <= self.max_capacity
         # if block out of capacity
         if self.cur_capacity == self.max_capacity:
